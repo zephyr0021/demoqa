@@ -8,7 +8,7 @@ def setup_browser(request):
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
-        "browserVersion": "latest",
+        "browserVersion": "128.0",
         "selenoid:options": {
             "enableVNC": True,
             "enableVideo": True
@@ -21,8 +21,6 @@ def setup_browser(request):
     )
 
     browser = Browser(Config(driver))
-    browser.config.base_url = "https://demoqa.com"
-
     yield browser
 
     browser.quit()

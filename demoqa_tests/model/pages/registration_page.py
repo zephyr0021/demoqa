@@ -21,7 +21,7 @@ class RegistrationPage:
         self.city = browser.element('#city')
         self.submit_button = browser.element('#submit')
 
-    def open(self, setup_browser):
+    def open(self):
         browser.open('/automation-practice-form')
         browser.all('[id^=google_ads][id$=container__]').with_(timeout=10).wait_until(
             have.size_greater_than_or_equal(3)

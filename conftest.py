@@ -25,4 +25,4 @@ def setup_browser(request):
 
     yield browser
 
-    driver.quit()
+    browser.quit()

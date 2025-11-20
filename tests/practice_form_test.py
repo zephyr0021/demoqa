@@ -2,9 +2,9 @@ from demoqa_tests.model.pages.registration_page import RegistrationPage
 import allure
 
 
-def test_student_registration_form():
+def test_student_registration_form(setup_browser):
     with allure.step("Открываем страницу регистрации"):
-        registration_page = RegistrationPage()
+        registration_page = RegistrationPage(browser=setup_browser)
         registration_page.open()
 
     with allure.step("Заполняем имя"):

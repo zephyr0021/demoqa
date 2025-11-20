@@ -1,32 +1,30 @@
 from selene import have, command
-from selene.support.shared import browser
 
-from conftest import setup_browser
 from demoqa_tests import resource
 
 
 class RegistrationPage:
-    browser = setup_browser
-    def __init__(self):
-        self.first_name = browser.element('#firstName')
-        self.last_name = browser.element('#lastName')
-        self.state = browser.element('#state')
-        self.email = browser.element('#userEmail')
-        self.gender = browser.all('[name=gender]')
-        self.phone = browser.element('#userNumber')
-        self.subjects = browser.element('#subjectsInput')
-        self.hobbies = browser.all('.custom-checkbox')
-        self.picture = browser.element('#uploadPicture')
-        self.address = browser.element('#currentAddress')
-        self.city = browser.element('#city')
-        self.submit_button = browser.element('#submit')
+    def __init__(self, browser):
+        self.browser = browser
+        self.first_name = self.browser.element('#firstName')
+        self.last_name = self.browser.element('#lastName')
+        self.state = self.browser.element('#state')
+        self.email = self.browser.element('#userEmail')
+        self.gender = self.browser.all('[name=gender]')
+        self.phone = self.browser.element('#userNumber')
+        self.subjects = self.browser.element('#subjectsInput')
+        self.hobbies = self.browser.all('.custom-checkbox')
+        self.picture = self.browser.element('#uploadPicture')
+        self.address = self.browser.element('#currentAddress')
+        self.city = self.browser.element('#city')
+        self.submit_button = self.browser.element('#submit')
 
     def open(self):
-        browser.open('/automation-practice-form')
-        browser.all('[id^=google_ads][id$=container__]').with_(timeout=10).wait_until(
+        self.browser.open('/automation-practice-form')
+        self.browser.all('[id^=google_ads][id$=container__]').with_(timeout=10).wait_until(
             have.size_greater_than_or_equal(3)
         )
-        browser.all('[id^=google_ads][id$=container__]').perform(command.js.remove)
+        self.browser.all('[id^=google_ads][id$=container__]').perform(command.js.remove)
         return self
 
     def fill_first_name(self, first_name):
@@ -42,10 +40,10 @@ class RegistrationPage:
         return self
 
     def fill_date_of_birth(self, year, month, day):
-        browser.element('#dateOfBirthInput').click()
-        browser.element('.react-datepicker__month-select').type(month)
-        browser.element('.react-datepicker__year-select').type(year)
-        browser.element(
+        self.browser.element('#dateOfBirthInput').click()
+        self.browser.element('.react-datepicker__month-select').type(month)
+        self.browser.element('.react-datepicker__year-select').type(year)
+        self.browser.element(
             f'.react-datepicker__day--0{day}:not(.react-datepicker__day--outside-month)'
         ).click()
         return self
@@ -53,7 +51,7 @@ class RegistrationPage:
     def fill_state(self, name):
         self.state.perform(command.js.scroll_into_view)
         self.state.click()
-        browser.all('[id^=react-select][id*=option]').element_by(
+        self.browser.all('[id^=react-select][id*=option]').element_by(
             have.exact_text(name)
         ).click()
         return self
@@ -82,12 +80,12 @@ class RegistrationPage:
         return self
 
     def fill_address(self, address):
-        browser.element('#currentAddress').type(address)
+        self.browser.element('#currentAddress').type(address)
         return self
 
     def fill_city(self, city):
         self.city.click()
-        browser.all('[id^=react-select][id*=option]').element_by(
+        self.browser.all('[id^=react-select][id*=option]').element_by(
             have.exact_text(city)
         ).click()
 
@@ -100,7 +98,7 @@ class RegistrationPage:
 
     def should_registered_user_with(self, full_name, email, male, phone, date_of_birth, subjects, hobbies, photo,
                                     address, state_city):
-        browser.element('.table').all('td').even.should(
+        self.browser.element('.table').all('td').even.should(
             have.exact_texts(
                 full_name,
                 email,

@@ -2,6 +2,7 @@ import pytest
 from selene import Browser, Config
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from tests.utils import attach
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
@@ -24,4 +25,5 @@ def setup_browser(request):
     browser.config.base_url = 'https://demoqa.com'
     yield browser
 
+    attach.add_video(browser)
     browser.quit()

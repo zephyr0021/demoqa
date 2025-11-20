@@ -1,6 +1,6 @@
 from selene import have, command
-
 from demoqa_tests import resource
+from tests.utils import attach
 
 
 class RegistrationPage:
@@ -25,18 +25,22 @@ class RegistrationPage:
             have.size_greater_than_or_equal(3)
         )
         self.browser.all('[id^=google_ads][id$=container__]').perform(command.js.remove)
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_first_name(self, first_name):
         self.first_name.type(first_name)
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_last_name(self, last_name):
         self.last_name.type(last_name)
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_email(self, email):
         self.email.type(email)
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_date_of_birth(self, year, month, day):
@@ -46,6 +50,7 @@ class RegistrationPage:
         self.browser.element(
             f'.react-datepicker__day--0{day}:not(.react-datepicker__day--outside-month)'
         ).click()
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_state(self, name):
@@ -54,33 +59,41 @@ class RegistrationPage:
         self.browser.all('[id^=react-select][id*=option]').element_by(
             have.exact_text(name)
         ).click()
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_gender(self, gender):
         self.gender.element_by(have.value(gender)).element('..').click()
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_phone(self, phone):
         self.phone.type(phone)
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_subjects(self, *subjects):
         for subject in subjects:
             self.subjects.type(subject).press_enter()
 
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_hobbies(self, *hobbies):
         for hobby in hobbies:
             self.hobbies.element_by(have.exact_text(hobby)).click()
+
+        attach.add_screenshot(self.browser)
         return self
 
     def upload_picture(self):
         self.picture.set_value(resource.path('foto.jpg'))
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_address(self, address):
         self.browser.element('#currentAddress').type(address)
+        attach.add_screenshot(self.browser)
         return self
 
     def fill_city(self, city):
@@ -88,12 +101,12 @@ class RegistrationPage:
         self.browser.all('[id^=react-select][id*=option]').element_by(
             have.exact_text(city)
         ).click()
-
-
+        attach.add_screenshot(self.browser)
         return self
 
     def submit_form(self):
         self.submit_button.click().perform(command.js.click)
+        attach.add_screenshot(self.browser)
         return self
 
     def should_registered_user_with(self, full_name, email, male, phone, date_of_birth, subjects, hobbies, photo,
@@ -112,4 +125,5 @@ class RegistrationPage:
                 state_city,
             )
         )
+        attach.add_screenshot(self.browser)
         return self

@@ -1,13 +1,13 @@
 from selene import have, command
-from selene.support.conditions.have import value
 from selene.support.shared import browser
 
 from demoqa_tests import resource
 
 
 class RegistrationPage:
-    def __init__(self, setup_browser):
-        self.browser = setup_browser
+    browser = None
+
+    def __init__(self):
         self.first_name = self.browser.element('#firstName')
         self.last_name = self.browser.element('#lastName')
         self.state = self.browser.element('#state')
@@ -21,7 +21,8 @@ class RegistrationPage:
         self.city = self.browser.element('#city')
         self.submit_button = self.browser.element('#submit')
 
-    def open(self):
+    def open(self, setup_browser):
+        self.browser = setup_browser
         self.browser.open('/automation-practice-form')
         self.browser.all('[id^=google_ads][id$=container__]').with_(timeout=10).wait_until(
             have.size_greater_than_or_equal(3)
@@ -29,16 +30,16 @@ class RegistrationPage:
         self.browser.all('[id^=google_ads][id$=container__]').perform(command.js.remove)
         return self
 
-    def fill_first_name(self, value):
-        self.first_name.type(value)
+    def fill_first_name(self, first_name):
+        self.first_name.type(first_name)
         return self
 
-    def fill_last_name(self, value):
-        self.last_name.type(value)
+    def fill_last_name(self, last_name):
+        self.last_name.type(last_name)
         return self
 
-    def fill_email(self, value):
-        self.email.type(value)
+    def fill_email(self, email):
+        self.email.type(email)
         return self
 
     def fill_date_of_birth(self, year, month, day):

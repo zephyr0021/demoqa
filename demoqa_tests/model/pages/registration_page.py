@@ -6,7 +6,7 @@ from demoqa_tests import resource
 
 
 class RegistrationPage:
-    def __init__(self):
+    def __init__(self, setup_browser):
         self.first_name = browser.element('#firstName')
         self.last_name = browser.element('#lastName')
         self.state = browser.element('#state')

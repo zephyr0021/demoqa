@@ -4,8 +4,18 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from tests.utils import attach
 
+def pytest_addoption(parser):
+    parser.addoption(
+        '--browser_url',
+        default='selenoid.autotests.cloud/wd/hub',
+    )
+
+
+
+
 @pytest.fixture(scope='function')
 def setup_browser(request):
+    browser_url = request.config.getoption('--browser_url')
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
@@ -15,9 +25,10 @@ def setup_browser(request):
             "enableVideo": True
         }
     }
+
     options.capabilities.update(selenoid_capabilities)
     driver = webdriver.Remote(
-        command_executor=f"https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        command_executor=f"https://user1:1234@{browser_url}",
         options=options
     )
 

@@ -1,4 +1,7 @@
+import os
+
 import pytest
+from dotenv import load_dotenv
 from selene import Browser, Config
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -11,7 +14,9 @@ def pytest_addoption(parser):
     )
 
 
-
+@pytest.fixture(scope='session', autouse=True)
+def load_env():
+    load_dotenv()
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
@@ -26,9 +31,12 @@ def setup_browser(request):
         }
     }
 
+    login = os.getenv('LOGIN')
+    password = os.getenv('PASSWORD')
+
     options.capabilities.update(selenoid_capabilities)
     driver = webdriver.Remote(
-        command_executor=f"https://user1:1234@{browser_url}",
+        command_executor=f"https://{login}:{password}@{browser_url}",
         options=options
     )
 
